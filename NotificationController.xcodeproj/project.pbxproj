@@ -10,6 +10,7 @@
 		87655C841BEA614E00A0CB64 /* NotificationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87655C831BEA614E00A0CB64 /* NotificationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87655C8B1BEA614E00A0CB64 /* NotificationController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87655C801BEA614E00A0CB64 /* NotificationController.framework */; };
 		87655C901BEA614E00A0CB64 /* NotificationControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87655C8F1BEA614E00A0CB64 /* NotificationControllerTests.swift */; };
+		87655C9B1BEA618800A0CB64 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87655C9A1BEA618800A0CB64 /* NotificationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		87655C8A1BEA614E00A0CB64 /* NotificationControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificationControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		87655C8F1BEA614E00A0CB64 /* NotificationControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationControllerTests.swift; sourceTree = "<group>"; };
 		87655C911BEA614E00A0CB64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		87655C9A1BEA618800A0CB64 /* NotificationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				87655C831BEA614E00A0CB64 /* NotificationController.h */,
+				87655C9A1BEA618800A0CB64 /* NotificationController.swift */,
 				87655C851BEA614E00A0CB64 /* Info.plist */,
 			);
 			path = NotificationController;
@@ -196,6 +199,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87655C9B1BEA618800A0CB64 /* NotificationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +314,7 @@
 		87655C951BEA614E00A0CB64 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -320,12 +325,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kukushi.NotificationController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		87655C961BEA614E00A0CB64 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
