@@ -27,7 +27,7 @@ public extension NSObject {
 }
 
 public class NotificationController: NSObject {
-    public typealias NotificationClouse = (NSNotification!) -> Void
+    public typealias NotificationClosure = (NSNotification!) -> Void
     
     private let observer: NSObject!
     private var blockInfos = Set<NotificationInfo>()
@@ -48,17 +48,15 @@ public class NotificationController: NSObject {
         unobserveAll()
     }
     
-    // MARK: Observe with Clouse
+    // MARK: Observe with Closure
     
-    public func observe(notification: String?, object: NSObject? = nil, queue: NSOperationQueue? = nil, block: NotificationClouse) {
+    public func observe(notification: String?, object: NSObject? = nil, queue: NSOperationQueue? = nil, block: NotificationClosure) {
         let observer = DefaultCenter.addObserverForName(notification, object: object, queue: queue, usingBlock: block)
-        
         let info = NotificationInfo(observer: observer as! NSObject, name: notification, object: object)
         
-        with {
+        spinLock {
             self.blockInfos.insert(info)
         }
-        
     }
     
     // MARK: Observe with Selector
@@ -69,18 +67,25 @@ public class NotificationController: NSObject {
         selectorInfos.insert(notificationInfo)
     }
     
+    public func notificationReceived(notification: NSNotification) {
+        let name = notification.name
+        for info in selectorInfos  where info.selector != nil {
+            if name == info.name && info.observer.respondsToSelector(info.selector!) {
+                info.observer.performSelector(info.selector!, withObject: info.object)
+            }
+        }
+    }
     
     // MARK: Unobserve
     
     public func unobserve(notification: String?, object: NSObject? = nil) {
         var deadInfos = Set<NotificationInfo>()
         
-        with {
+        spinLock {
             for info in self.blockInfos {
                 if info.name == notification && info.object == object {
                     self.DefaultCenter.removeObserver(info.observer, name: info.name, object: info.object)
                 }
-                
                 deadInfos.insert(info)
             }
             
@@ -97,14 +102,14 @@ public class NotificationController: NSObject {
             DefaultCenter.removeObserver(info.observer, name: info.name, object: info.object)
         }
         
-        with {
+        spinLock {
             self.blockInfos.removeAll(keepCapacity: false)
         }
     }
     
     // MARK: Lock
     
-    private func with(closure: Void -> Void) {
+    private func spinLock(closure: Void -> Void) {
         OSSpinLockLock(&lock)
         closure()
         OSSpinLockUnlock(&lock)
