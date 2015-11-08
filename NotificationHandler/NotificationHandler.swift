@@ -1,6 +1,6 @@
 //
-//  NotificationController.swift
-//  NotificationController
+//  NotificationHandler.swift
+//  NotificationHandler
 //
 //  Created by kukushi on 3/1/15.
 //  Copyright (c) 2015 kukushi. All rights reserved.
@@ -8,28 +8,28 @@
 
 import UIKit
 
-private var notificationControllerAssociationKey: UInt8 = 17
+private var NotificationHandlerAssociationKey: UInt8 = 17
 
 public extension NSObject {
     /// A lazy initialized `Notification Controller` instance for NSObject and it's subclass
-    var notificationController: NotificationController! {
+    var notificationHandler: NotificationHandler! {
         get {
-            var controller = objc_getAssociatedObject(self, &notificationControllerAssociationKey) as? NotificationController
+            var controller = objc_getAssociatedObject(self, &NotificationHandlerAssociationKey) as? NotificationHandler
             if controller == nil {
-                controller = NotificationController(observer: self)
-                self.notificationController = controller
+                controller = NotificationHandler(observer: self)
+                self.notificationHandler = controller
             }
             return controller
         }
         set(newValue) {
-            objc_setAssociatedObject(self, &notificationControllerAssociationKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &NotificationHandlerAssociationKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 }
 
 /// The notification controller response for handing all the hard work of observe and unoberve notifications.
 /// The basic usage is rather similar to the official `NSNotification Center`
-public class NotificationController: NSObject {
+public class NotificationHandler: NSObject {
     public typealias NotificationClosure = (NSNotification!) -> Void
     
     private weak var observer: NSObject!
