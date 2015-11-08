@@ -46,6 +46,22 @@ class NotificationControllerTests: XCTestCase {
         waitForExpectationsWithTimeout(2, handler: nil)
     }
     
+    func testObserveWithBlockMangTimes() {
+        let notificationName =  __FUNCTION__
+        testObject.notificationController.observe(notificationName) {[unowned self] notification in
+            self.testObject.count += 1
+        }
+        
+        for _ in Range(start: 0, end: 1000) {
+            NotificationCenter.postNotificationName(notificationName, object: nil)
+        }
+        
+        let expection = expectationWithDescription("")
+        XCTAssert(self.testObject.count == 1000)
+        expection.fulfill()
+        waitForExpectationsWithTimeout(2, handler: nil)
+    }
+    
     func testObserveWithSelector() {
         let notificationName =  __FUNCTION__
         testObject.notificationController.observe(notificationName, selector: "plusOne")
@@ -54,6 +70,20 @@ class NotificationControllerTests: XCTestCase {
         
         let expection = expectationWithDescription("")
         XCTAssert(self.testObject.count == 1)
+        expection.fulfill()
+        waitForExpectationsWithTimeout(2, handler: nil)
+    }
+    
+    func testObserveWithSelectorManyTimes() {
+        let notificationName =  __FUNCTION__
+        testObject.notificationController.observe(notificationName, selector: "plusOne")
+        
+        for _ in Range(start: 0, end: 1000) {
+            NotificationCenter.postNotificationName(notificationName, object: nil)
+        }
+        
+        let expection = expectationWithDescription("")
+        XCTAssert(self.testObject.count == 1000)
         expection.fulfill()
         waitForExpectationsWithTimeout(2, handler: nil)
     }
@@ -106,11 +136,31 @@ class NotificationControllerTests: XCTestCase {
         
         let expection2 = expectationWithDescription("")
         expection2.fulfill()
-        
         waitForExpectationsWithTimeout(2, handler: nil)
     }
     
     override func tearDown() {
         super.tearDown()
     }
+    
+//    func testObserverBecomeNilWithBlock() {
+//        let notificationName =  __FUNCTION__
+//        testObject.notificationController.observe(notificationName) {[unowned self] (notification) -> Void in
+//            self.testObject.count += 1
+//        }
+//        NotificationCenter.postNotificationName(notificationName, object: nil)
+//        
+//        let expection = expectationWithDescription("")
+//        XCTAssert(self.testObject.count == 1)
+//        expection.fulfill()
+//        
+//        testObject = nil
+//        
+//        NotificationCenter.postNotificationName(notificationName, object: nil)
+//        
+//        let expection2 = expectationWithDescription("")
+//        XCTAssert(self.testObject.count == 1)
+//        expection2.fulfill()
+//        waitForExpectationsWithTimeout(2, handler: nil)
+//    }
 }
