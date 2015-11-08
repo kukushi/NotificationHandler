@@ -9,28 +9,103 @@
 import XCTest
 @testable import NotificationController
 
+let NotificationCenter = NSNotificationCenter.defaultCenter()
+
+class TestObject: NSObject {
+    var count = 0
+    override init () {}
+    func plusOne() {
+        count += 1
+    }
+}
+
 class NotificationControllerTests: XCTestCase {
+    var testObject: TestObject!
     
     override func setUp() {
+        testObject = TestObject()
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+    
+    func testObserveWithBlock() {
+        let notificationName =  __FUNCTION__
+        testObject.notificationController.observe(notificationName) {[unowned self] notification in
+            self.testObject.count += 1
+        }
+        
+        NotificationCenter.postNotificationName(notificationName, object: nil)
+        
+        let expection = expectationWithDescription("")
+        XCTAssert(self.testObject.count == 1)
+        expection.fulfill()
+        waitForExpectationsWithTimeout(2, handler: nil)
+    }
+    
+    func testObserveWithSelector() {
+        let notificationName =  __FUNCTION__
+        testObject.notificationController.observe(notificationName, selector: "plusOne")
+        
+        NotificationCenter.postNotificationName(notificationName, object: nil)
+        
+        let expection = expectationWithDescription("")
+        XCTAssert(self.testObject.count == 1)
+        expection.fulfill()
+        waitForExpectationsWithTimeout(2, handler: nil)
+    }
+    
+    func testObserveWithSelectorAndBlock() {
+        let notificationName =  __FUNCTION__
+        testObject.notificationController.observe(notificationName, selector: "plusOne")
+        testObject.notificationController.observe(notificationName) {[unowned self] notification in
+            self.testObject.count += 1
+        }
+        NotificationCenter.postNotificationName(notificationName, object: nil)
+        
+        let expection = expectationWithDescription("")
+        XCTAssert(self.testObject.count == 2)
+        expection.fulfill()
+        waitForExpectationsWithTimeout(2, handler: nil)
+    }
+    
+    func testUnobserveWithSelector() {
+        let notificationName =  __FUNCTION__
+        testObject.notificationController.observe(notificationName, selector: "plusOne")
+        NotificationCenter.postNotificationName(notificationName, object: nil)
+        
+        let expection = expectationWithDescription("")
+        XCTAssert(self.testObject.count == 1)
+        expection.fulfill()
+        
+        testObject.notificationController.unobserve(notificationName)
+        NotificationCenter.postNotificationName(notificationName, object: nil)
+        
+        let expection2 = expectationWithDescription("")
+        XCTAssert(self.testObject.count == 1)
+        expection2.fulfill()
+        
+        waitForExpectationsWithTimeout(2, handler: nil)
+    }
+    
+    func testObserverBecomeNilWithSelector() {
+        let notificationName =  __FUNCTION__
+        testObject.notificationController.observe(notificationName, selector: "plusOne")
+        NotificationCenter.postNotificationName(notificationName, object: nil)
+        
+        let expection = expectationWithDescription("")
+        XCTAssert(self.testObject.count == 1)
+        expection.fulfill()
+        
+        testObject = nil
+        
+        NotificationCenter.postNotificationName(notificationName, object: nil)
+        
+        let expection2 = expectationWithDescription("")
+        expection2.fulfill()
+        
+        waitForExpectationsWithTimeout(2, handler: nil)
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }

@@ -8,9 +8,10 @@
 
 import UIKit
 
-private var notificationControllerAssociationKey: UInt8 = 0
+private var notificationControllerAssociationKey: UInt8 = 17
 
 public extension NSObject {
+    /// A lazy initalized NotificationController isntance for NSObject and it's subclass
     var notificationController: NotificationController! {
         get {
             var controller = objc_getAssociatedObject(self, &notificationControllerAssociationKey) as? NotificationController
@@ -29,7 +30,7 @@ public extension NSObject {
 public class NotificationController: NSObject {
     public typealias NotificationClosure = (NSNotification!) -> Void
     
-    private let observer: NSObject!
+    private weak var observer: NSObject!
     private var blockInfos = Set<NotificationInfo>()
     private var selectorInfos = Set<NotificationInfo>()
     private var lock = OS_SPINLOCK_INIT
@@ -49,7 +50,6 @@ public class NotificationController: NSObject {
     }
     
     // MARK: Observe with Closure
-    
     public func observe(notification: String?, object: NSObject? = nil, queue: NSOperationQueue? = nil, block: NotificationClosure) {
         let observer = DefaultCenter.addObserverForName(notification, object: object, queue: queue, usingBlock: block)
         let info = NotificationInfo(observer: observer as! NSObject, name: notification, object: object)
@@ -79,19 +79,20 @@ public class NotificationController: NSObject {
     // MARK: Unobserve
     
     public func unobserve(notification: String?, object: NSObject? = nil) {
-        var deadInfos = Set<NotificationInfo>()
-        
         spinLock {
-            for info in self.blockInfos {
+            let filterBlock = { [unowned self] (info: NotificationInfo) -> Bool in
                 if info.name == notification && info.object == object {
                     self.DefaultCenter.removeObserver(info.observer, name: info.name, object: info.object)
+                    return false
                 }
-                deadInfos.insert(info)
+                return true
             }
             
-            for info in deadInfos {
-                self.blockInfos.remove(info)
-            }
+            let filteredBlockInfos = self.blockInfos.filter(filterBlock)
+            self.blockInfos = Set<NotificationInfo>(filteredBlockInfos)
+            
+            let filteredSelectorInfos = self.selectorInfos.filter(filterBlock)
+            self.selectorInfos = Set<NotificationInfo>(filteredSelectorInfos)
         }
         
     }
