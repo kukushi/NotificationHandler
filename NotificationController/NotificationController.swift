@@ -11,7 +11,7 @@ import UIKit
 private var notificationControllerAssociationKey: UInt8 = 17
 
 public extension NSObject {
-    /// A lazy initalized NotificationController isntance for NSObject and it's subclass
+    /// A lazy initialized `Notification Controller` instance for NSObject and it's subclass
     var notificationController: NotificationController! {
         get {
             var controller = objc_getAssociatedObject(self, &notificationControllerAssociationKey) as? NotificationController
@@ -27,8 +27,8 @@ public extension NSObject {
     }
 }
 
-/// The notification controller response for handing all the hard work of observe and unoberve notification. 
-/// The basic usage is rather similar to the official `NSNotificationCenter`
+/// The notification controller response for handing all the hard work of observe and unoberve notifications.
+/// The basic usage is rather similar to the official `NSNotification Center`
 public class NotificationController: NSObject {
     public typealias NotificationClosure = (NSNotification!) -> Void
     
@@ -41,14 +41,14 @@ public class NotificationController: NSObject {
         return NSNotificationCenter.defaultCenter()
     }
     
-    // MARK: Initalization
+    // MARK: Initialization
     
     /**
-    Create a notification instance using the observer. Observer is responsed to hold that instance. In normal case, you don't have to call this method manually.
+    Create a notification instance using the observer. Observer is responded for hold that instance. In normal cases, you don't have to call this method manually.
     
-    - parameter observer: The observer of the notification. It will be weak referenced by that instance.
+    - parameter observer: The observer of the notification which will be weak referenced by that instance.
     
-    - returns: An initalized instance
+    - returns: An initialized instance
     */
     init (observer: NSObject) {
         self.observer = observer
@@ -95,7 +95,7 @@ public class NotificationController: NSObject {
     /**
      The method used to redistribute notification to the real observer. This method is marked `private` instead of `public` because the language limitation.
      
-     - parameter notification: Reveived notification.
+     - parameter notification: Received notification.
      */
     public func notificationReceived(notification: NSNotification) {
         let name = notification.name
@@ -125,7 +125,7 @@ public class NotificationController: NSObject {
     // MARK: Unobserve
     
     /**
-    Unobserve the named notifications observed by this instance.
+    Unobserve the named notification observed by this instance.
     
     - parameter name:   the name of notification to be unobserved. Specify a notification name to remove only entries that specify this notification name. When nil, the receiver does not use notification names as criteria for removal.
     - parameter object: Sender to remove from the dispatch table. Specify a notification sender to remove only entries that specify this sender. When nil, the receiver does not use notification senders as criteria for removal.
