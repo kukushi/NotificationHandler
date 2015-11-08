@@ -13,7 +13,12 @@ let NotificationCenter = NSNotificationCenter.defaultCenter()
 
 class TestObject: NSObject {
     var count = 0
-    override init () {}
+    override init () {    
+    }
+    
+    deinit {
+    }
+    
     func plusOne() {
         count += 1
     }
