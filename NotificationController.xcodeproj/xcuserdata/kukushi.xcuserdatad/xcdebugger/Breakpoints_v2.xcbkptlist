@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NotificationController/NotificationController.swift"
-            timestampString = "468608706.025293"
+            timestampString = "468657958.042277"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "deinit"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "notificationReceived(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
