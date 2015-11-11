@@ -3,5 +3,4 @@ language: objective-c
 osx_image: xcode7.1
 xcode_project: NotificationHandler.xcodeproj
 xcode_scheme: NotificationHandlerTests
-script:
-xcodebuild -project NotificationHandler.xcodeproj -scheme NotificationHandler -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6,OS=latest' test
+script: xcodebuild -project NotificationHandler.xcodeproj -scheme NotificationHandler -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6,OS=latest' test
