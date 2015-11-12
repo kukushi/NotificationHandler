@@ -1,8 +1,7 @@
 # NotificationHandler
 
-![Carthage Compatibility](https://img.shields.io/badge/Carthage-✔-f2a77e.svg?style=flat)
-![License](https://img.shields.io/cocoapods/l/Lily.svg?style=flat)
-![Platform](https://img.shields.io/cocoapods/p/Lily.svg?style=flat)
+![Carthage Compatibility](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)
+[![Build Status](https://travis-ci.org/kukushi/NotificationHandler.svg?branch=0.0.2)](https://travis-ci.org/kukushi/NotificationHandler)
 
 NotificationHandler is a neat Swift notification operations wrapper. With NotificationHandler, it's super easy to handle notifications with neat API. What's more, remove obersers is also properly handled.
 
