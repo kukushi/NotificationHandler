@@ -30,7 +30,7 @@ This is the complete example. The removal of observer will be done when controll
 
 ##  NSObject Category
 
-A NSObject Category is provided to give you direct access of controller show as above.
+A `NSObject` category is provided to give you direct access of controller show as above.
 
 ## Installation
 
@@ -58,7 +58,7 @@ github "kukushi/NotificationHandler"
 
 ## Requirements
 
-NotificationHandler using ARC and weak Collections base on Swift 1.2. It requires:
+NotificationHandler using ARC and weak collections base on Swift 2. It requires:
 
 * iOS 8 or later.
 * Xcode 7 or later.
