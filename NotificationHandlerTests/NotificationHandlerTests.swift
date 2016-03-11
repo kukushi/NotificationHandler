@@ -22,6 +22,11 @@ class TestObject: NSObject {
     func plusOne() {
         count += 1
     }
+    
+    func plusTwo(notification: NSNotification) {
+        print("### Notification: \(notification)")
+        count += 2
+    }
 }
 
 class NotificationHandlerTests: XCTestCase {
@@ -70,6 +75,18 @@ class NotificationHandlerTests: XCTestCase {
         
         let expection = expectationWithDescription("")
         XCTAssert(self.testObject.count == 1)
+        expection.fulfill()
+        waitForExpectationsWithTimeout(2, handler: nil)
+    }
+    
+    func testObserveWithSelectorAndParameters() {
+        let notificationName =  __FUNCTION__
+        testObject.notificationHandler.observe(notificationName, selector: "plusTwo:")
+        
+        NotificationCenter.postNotificationName(notificationName, object: nil)
+        
+        let expection = expectationWithDescription("")
+        XCTAssert(self.testObject.count == 2)
         expection.fulfill()
         waitForExpectationsWithTimeout(2, handler: nil)
     }

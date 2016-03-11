@@ -109,7 +109,7 @@ public class NotificationHandler: NSObject {
             #endif
             
             if name == info.name && info.observer.respondsToSelector(info.selector!) {
-                info.observer.performSelector(info.selector!, withObject: info.object)
+                info.observer.performSelector(info.selector!, withObject: notification)
             }
         }
     }
