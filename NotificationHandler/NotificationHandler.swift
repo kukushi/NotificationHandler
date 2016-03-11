@@ -72,9 +72,12 @@ public class NotificationHandler: NSObject {
         let observer = DefaultCenter.addObserverForName(name, object: object, queue: queue, usingBlock: block)
         let info = NotificationInfo(observer: observer as! NSObject, name: name, object: object)
         
-        spinLock { [unowned self] in
-            self.blockInfos.insert(info)
-        }
+        
+        OSSpinLockLock(&lock)
+        
+        blockInfos.insert(info)
+        
+        OSSpinLockUnlock(&lock)
     }
     
     // MARK: Observe with Selector
@@ -131,21 +134,23 @@ public class NotificationHandler: NSObject {
     - parameter object: Sender to remove from the dispatch table. Specify a notification sender to remove only entries that specify this sender. When nil, the receiver does not use notification senders as criteria for removal.
     */
     public func unobserve(name: String?, object: NSObject? = nil) {
-        spinLock { [unowned self] in
-            let filterBlock = { [unowned self] (info: NotificationInfo) -> Bool in
-                if info.name == name && info.object == object {
-                    self.DefaultCenter.removeObserver(info.observer, name: info.name, object: info.object)
-                    return false
-                }
-                return true
+        OSSpinLockLock(&lock)
+        
+        let filterBlock = { [unowned self] (info: NotificationInfo) -> Bool in
+            if info.name == name && info.object == object {
+                self.DefaultCenter.removeObserver(info.observer, name: info.name, object: info.object)
+                return false
             }
-            
-            let filteredBlockInfos = self.blockInfos.filter(filterBlock)
-            self.blockInfos = Set<NotificationInfo>(filteredBlockInfos)
-            
-            let filteredSelectorInfos = self.selectorInfos.filter(filterBlock)
-            self.selectorInfos = Set<NotificationInfo>(filteredSelectorInfos)
+            return true
         }
+        
+        let filteredBlockInfos = self.blockInfos.filter(filterBlock)
+        blockInfos = Set<NotificationInfo>(filteredBlockInfos)
+        
+        let filteredSelectorInfos = self.selectorInfos.filter(filterBlock)
+        selectorInfos = Set<NotificationInfo>(filteredSelectorInfos)
+        
+        OSSpinLockUnlock(&lock)
         
     }
     
@@ -161,16 +166,10 @@ public class NotificationHandler: NSObject {
             DefaultCenter.removeObserver(self, name: info.name, object: info.object)
         }
         
-        spinLock { [unowned self] in
-            self.blockInfos.removeAll(keepCapacity: false)
-        }
-    }
-    
-    // MARK: Lock
-    
-    private func spinLock(closure: Void -> Void) {
         OSSpinLockLock(&lock)
-        closure()
+        
+        blockInfos.removeAll(keepCapacity: false)
+        
         OSSpinLockUnlock(&lock)
     }
 }
