@@ -90,7 +90,7 @@ public class NotificationHandler: NSObject {
     - parameter selector:     Selector that specifies the message the receiver sends notificationObserver to notify it of the notification posting. The method specified by notificationSelector must have one and only one argument (an instance of NSNotification).
     */
     public func observe(notification: String?, object: NSObject? = nil, selector: Selector) {
-        DefaultCenter.addObserver(self, selector: "notificationReceived:", name: notification, object: object)
+        DefaultCenter.addObserver(self, selector: #selector(NotificationHandler.notificationReceived(_:)), name: notification, object: object)
         let notificationInfo = NotificationInfo(observer: self.observer, name: notification, selector: selector)
         selectorInfos.insert(notificationInfo)
     }
