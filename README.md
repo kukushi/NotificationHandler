@@ -3,32 +3,30 @@
 ![Carthage Compatibility](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)
 [![Build Status](https://travis-ci.org/kukushi/NotificationHandler.svg?branch=0.0.2)](https://travis-ci.org/kukushi/NotificationHandler)
 
-NotificationHandler is a neat Swift notification operations wrapper. With NotificationHandler, it's super easy to handle notifications with neat API. What's more, remove obersers is also properly handled.
+NotificationHandler nicely wrap almost all the `NSNotification` related operations with more friendly API. 
 
 Fetures include:
 
-* Modern and clear method signature
-* Implicit observer removal on controller dealloc.
+* Modern and clear method signature.
+* Implicit observer removal on observer deallocation.
 
 ## Usage
 
-```
-// with closure
-self.notificationHandler.observe(notificationName) { (notification) -> Void in
+```swift
+// With closure
+notificationHandler.observe(notificationName) { notification in
     // do something...
 }
 
-// or with selector
-
-self.notificaqtionHandler.observe(notificationName, selector: "SayHi")
-
+// Or with selector
+notificationHandler.observe(notificationName, selector: "SayHi")
 ```
 
-This is the complete example. The removal of observer will be done when controller is deallocated.
+This is the complete example.
 
 ##  NSObject Category
 
-A `NSObject` category is provided to give you direct access of controller show as above.
+A `NSObject` category is provided to give you direct access of handler, shown as above.
 
 ## Installation
 
@@ -56,10 +54,10 @@ github "kukushi/NotificationHandler"
 
 ## Requirements
 
-NotificationHandler using ARC and weak collections base on Swift 2. It requires:
+NotificationHandler using ARC and weak collections base on Swift 2.2. It requires:
 
 * iOS 8 or later.
-* Xcode 7 or later.
+* Xcode 7.3 or later.
 
 
 ## One more thing
