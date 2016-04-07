@@ -27,15 +27,15 @@ public extension NSObject {
     }
 }
 
-/// The notification handler response for handing all the hard work of observe and unoberve notifications.
-/// The basic usage is rather similar to the official `NSNotification Center`
+/// The notification handler response for handing all the hard works of observe and unoberve notifications.
+/// The basic usage is rather similar than the official `NSNotificationCenter`
 public class NotificationHandler: NSObject {
     public typealias NotificationClosure = (NSNotification!) -> Void
     
     private weak var observer: NSObject!
     private var blockInfos = Set<NotificationInfo>()
     private var selectorInfos = Set<NotificationInfo>()
-    private var lock = OS_SPINLOCK_INIT
+    private var lock = pthread_mutex_t()
     
     private var DefaultCenter: NSNotificationCenter {
         return NSNotificationCenter.defaultCenter()
@@ -44,13 +44,14 @@ public class NotificationHandler: NSObject {
     // MARK: Initialization
     
     /**
-    Create a notification handler instance using the observer. Observer is responded for hold that instance. Normally, you don't have to call this method manually.
+    Create a notification handler instance using the observer. Observer is responded for hold that instance. Normally, you don't need to call this method manually.
     
-    - parameter observer: The observer of the notification which will be weak referenced by that instance.
+    - parameter observer: The observer will be weak referenced by that instance.
     
     - returns: An initialized instance
     */
     init (observer: NSObject) {
+        pthread_mutex_init(&lock, nil)
         self.observer = observer
     }
     
@@ -71,13 +72,10 @@ public class NotificationHandler: NSObject {
     public func observe(name: String?, object: NSObject? = nil, queue: NSOperationQueue? = nil, block: NotificationClosure) {
         let observer = DefaultCenter.addObserverForName(name, object: object, queue: queue, usingBlock: block)
         let info = NotificationInfo(observer: observer as! NSObject, name: name, object: object)
-        
-        
-        OSSpinLockLock(&lock)
-        
-        blockInfos.insert(info)
-        
-        OSSpinLockUnlock(&lock)
+
+        lockWith {
+            blockInfos.insert(info)
+        }
     }
     
     // MARK: Observe with Selector
@@ -96,21 +94,13 @@ public class NotificationHandler: NSObject {
     }
     
     /**
-     The method used to redistribute notification to the real observer. This method is marked `private` instead of `public` because the language limitation.
+     The method used to redistribute notification to the real observer. This method is marked `public` instead of `private` because the language limitation.
      
      - parameter notification: Received notification.
      */
     public func notificationReceived(notification: NSNotification) {
         let name = notification.name
         for info in selectorInfos where info.selector != nil {
-            #if DEBUG
-                // Note: When rnning test case, that instance won't be deallocated even if the holder object have been deallocated which work totally fine in a normal project.
-                // So in the debug mode, the observation will be removed if the oberser becom nil which will only happen in test case
-                if removeNilObserver(info) {
-                    return
-                }
-            #endif
-            
             if name == info.name && info.observer.respondsToSelector(info.selector!) {
                 info.observer.performSelector(info.selector!, withObject: notification)
             }
@@ -134,24 +124,22 @@ public class NotificationHandler: NSObject {
     - parameter object: Sender to remove from the dispatch table. Specify a notification sender to remove only entries that specify this sender. When nil, the receiver does not use notification senders as criteria for removal.
     */
     public func unobserve(name: String?, object: NSObject? = nil) {
-        OSSpinLockLock(&lock)
         
-        let filterBlock = { [unowned self] (info: NotificationInfo) -> Bool in
-            if info.name == name && info.object == object {
-                self.DefaultCenter.removeObserver(info.observer, name: info.name, object: info.object)
-                return false
+        lockWith {
+            let filterBlock = { [unowned self] (info: NotificationInfo) -> Bool in
+                if info.name == name && info.object == object {
+                    self.DefaultCenter.removeObserver(info.observer, name: info.name, object: info.object)
+                    return false
+                }
+                return true
             }
-            return true
+            
+            let filteredBlockInfos = self.blockInfos.filter(filterBlock)
+            blockInfos = Set<NotificationInfo>(filteredBlockInfos)
+            
+            let filteredSelectorInfos = self.selectorInfos.filter(filterBlock)
+            selectorInfos = Set<NotificationInfo>(filteredSelectorInfos)
         }
-        
-        let filteredBlockInfos = self.blockInfos.filter(filterBlock)
-        blockInfos = Set<NotificationInfo>(filteredBlockInfos)
-        
-        let filteredSelectorInfos = self.selectorInfos.filter(filterBlock)
-        selectorInfos = Set<NotificationInfo>(filteredSelectorInfos)
-        
-        OSSpinLockUnlock(&lock)
-        
     }
     
     /**
@@ -165,12 +153,18 @@ public class NotificationHandler: NSObject {
         for info in selectorInfos {
             DefaultCenter.removeObserver(self, name: info.name, object: info.object)
         }
-        
-        OSSpinLockLock(&lock)
-        
-        blockInfos.removeAll(keepCapacity: false)
-        
-        OSSpinLockUnlock(&lock)
+
+        lockWith {
+            blockInfos.removeAll(keepCapacity: false)
+        }
+    }
+    
+    // MARK: Lock
+    
+    func lockWith(@noescape closure: Void -> Void) {
+        pthread_mutex_lock(&lock);
+        closure();
+        pthread_mutex_unlock(&lock);
     }
 }
 
