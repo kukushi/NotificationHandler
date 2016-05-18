@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 kukushi. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 private var NotificationHandlerAssociationKey: UInt8 = 17
 

@@ -6,7 +6,7 @@
 //  Copyright © 2015 Xing He. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import Foundation;
 
 FOUNDATION_EXPORT double NotificationHandlerVersionNumber;
 

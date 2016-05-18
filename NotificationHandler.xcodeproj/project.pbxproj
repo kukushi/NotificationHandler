@@ -11,6 +11,9 @@
 		87114E101BEF3AF900B59FC0 /* NotificationHandler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87114E051BEF3AF900B59FC0 /* NotificationHandler.framework */; };
 		87114E151BEF3AF900B59FC0 /* NotificationHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87114E141BEF3AF900B59FC0 /* NotificationHandlerTests.swift */; };
 		87114E201BEF3B6B00B59FC0 /* NotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87114E1F1BEF3B6B00B59FC0 /* NotificationHandler.swift */; };
+		8768E0681CECCAC900239340 /* NotificationHandler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8768E05E1CECCAC800239340 /* NotificationHandler.framework */; };
+		8768E0751CECCB4000239340 /* NotificationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 87114E081BEF3AF900B59FC0 /* NotificationHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8768E0761CECCB4300239340 /* NotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87114E1F1BEF3B6B00B59FC0 /* NotificationHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -20,6 +23,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 87114E041BEF3AF900B59FC0;
 			remoteInfo = NotificationHandler;
+		};
+		8768E0691CECCAC900239340 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 87114DFC1BEF3AF900B59FC0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8768E05D1CECCAC800239340;
+			remoteInfo = "NotificationHandler OSX";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -31,6 +41,8 @@
 		87114E141BEF3AF900B59FC0 /* NotificationHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandlerTests.swift; sourceTree = "<group>"; };
 		87114E161BEF3AF900B59FC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		87114E1F1BEF3B6B00B59FC0 /* NotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationHandler.swift; sourceTree = "<group>"; };
+		8768E05E1CECCAC800239340 /* NotificationHandler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificationHandler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8768E0671CECCAC800239340 /* NotificationHandler.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificationHandler.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +58,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				87114E101BEF3AF900B59FC0 /* NotificationHandler.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8768E05A1CECCAC800239340 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8768E0641CECCAC800239340 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8768E0681CECCAC900239340 /* NotificationHandler.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +93,8 @@
 			children = (
 				87114E051BEF3AF900B59FC0 /* NotificationHandler.framework */,
 				87114E0F1BEF3AF900B59FC0 /* NotificationHandlerTests.xctest */,
+				8768E05E1CECCAC800239340 /* NotificationHandler.framework */,
+				8768E0671CECCAC800239340 /* NotificationHandler.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,6 +126,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				87114E091BEF3AF900B59FC0 /* NotificationHandler.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8768E05B1CECCAC800239340 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8768E0751CECCB4000239340 /* NotificationHandler.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,13 +176,49 @@
 			productReference = 87114E0F1BEF3AF900B59FC0 /* NotificationHandlerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		8768E05D1CECCAC800239340 /* NotificationHandler OSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8768E0731CECCAC900239340 /* Build configuration list for PBXNativeTarget "NotificationHandler OSX" */;
+			buildPhases = (
+				8768E0591CECCAC800239340 /* Sources */,
+				8768E05A1CECCAC800239340 /* Frameworks */,
+				8768E05B1CECCAC800239340 /* Headers */,
+				8768E05C1CECCAC800239340 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "NotificationHandler OSX";
+			productName = "NotificationHandler OSX";
+			productReference = 8768E05E1CECCAC800239340 /* NotificationHandler.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		8768E0661CECCAC800239340 /* NotificationHandler OSXTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8768E0741CECCAC900239340 /* Build configuration list for PBXNativeTarget "NotificationHandler OSXTests" */;
+			buildPhases = (
+				8768E0631CECCAC800239340 /* Sources */,
+				8768E0641CECCAC800239340 /* Frameworks */,
+				8768E0651CECCAC800239340 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8768E06A1CECCAC900239340 /* PBXTargetDependency */,
+			);
+			name = "NotificationHandler OSXTests";
+			productName = "NotificationHandler OSXTests";
+			productReference = 8768E0671CECCAC800239340 /* NotificationHandler.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		87114DFC1BEF3AF900B59FC0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Xing He";
 				TargetAttributes = {
@@ -156,6 +229,12 @@
 					87114E0E1BEF3AF900B59FC0 = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = Z6SYKE32SD;
+					};
+					8768E05D1CECCAC800239340 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					8768E0661CECCAC800239340 = {
+						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
 			};
@@ -173,6 +252,8 @@
 			targets = (
 				87114E041BEF3AF900B59FC0 /* NotificationHandler */,
 				87114E0E1BEF3AF900B59FC0 /* NotificationHandlerTests */,
+				8768E05D1CECCAC800239340 /* NotificationHandler OSX */,
+				8768E0661CECCAC800239340 /* NotificationHandler OSXTests */,
 			);
 		};
 /* End PBXProject section */
@@ -186,6 +267,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		87114E0D1BEF3AF900B59FC0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8768E05C1CECCAC800239340 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8768E0651CECCAC800239340 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -211,6 +306,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8768E0591CECCAC800239340 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8768E0761CECCB4300239340 /* NotificationHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8768E0631CECCAC800239340 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -218,6 +328,11 @@
 			isa = PBXTargetDependency;
 			target = 87114E041BEF3AF900B59FC0 /* NotificationHandler */;
 			targetProxy = 87114E111BEF3AF900B59FC0 /* PBXContainerItemProxy */;
+		};
+		8768E06A1CECCAC900239340 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8768E05D1CECCAC800239340 /* NotificationHandler OSX */;
+			targetProxy = 8768E0691CECCAC900239340 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -371,6 +486,80 @@
 			};
 			name = Release;
 		};
+		8768E06F1CECCAC900239340 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = NotificationHandler/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kukushi.NotificationHandler;
+				PRODUCT_NAME = NotificationHandler;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		8768E0701CECCAC900239340 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = NotificationHandler/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kukushi.NotificationHandler;
+				PRODUCT_NAME = NotificationHandler;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		8768E0711CECCAC900239340 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = NotificationHandlerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kukushi.NotificationHandlerTests;
+				PRODUCT_NAME = NotificationHandler;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		8768E0721CECCAC900239340 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = NotificationHandlerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kukushi.NotificationHandlerTests;
+				PRODUCT_NAME = NotificationHandler;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -390,6 +579,7 @@
 				87114E1B1BEF3AF900B59FC0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		87114E1C1BEF3AF900B59FC0 /* Build configuration list for PBXNativeTarget "NotificationHandlerTests" */ = {
 			isa = XCConfigurationList;
@@ -398,6 +588,25 @@
 				87114E1E1BEF3AF900B59FC0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8768E0731CECCAC900239340 /* Build configuration list for PBXNativeTarget "NotificationHandler OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8768E06F1CECCAC900239340 /* Debug */,
+				8768E0701CECCAC900239340 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8768E0741CECCAC900239340 /* Build configuration list for PBXNativeTarget "NotificationHandler OSXTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8768E0711CECCAC900239340 /* Debug */,
+				8768E0721CECCAC900239340 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
