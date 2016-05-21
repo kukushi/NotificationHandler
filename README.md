@@ -18,8 +18,8 @@ notificationHandler.observe(notificationName) { notification in
     // do something...
 }
 
-// Or with selector
-notificationHandler.observe(notificationName, selector: "SayHi")
+// With selector
+notificationHandler.observe(notificationName, selector: #selector(Object.sayHi)
 ```
 
 This is the complete example.
