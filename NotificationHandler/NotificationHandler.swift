@@ -27,8 +27,8 @@ public extension NSObject {
     }
 }
 
-/// The notification handler response for handing all the hard works of observe and unoberve notifications.
-/// The basic usage is rather similar than the official `NSNotificationCenter`
+/// The notification handler response for handing all the hard works of observing and unoberving notifications.
+/// The basic usage is rather similar than the official `NSNotificationCenter`.
 public class NotificationHandler: NSObject {
     public typealias NotificationClosure = (NSNotification!) -> Void
     
@@ -44,7 +44,7 @@ public class NotificationHandler: NSObject {
     // MARK: Initialization
     
     /**
-    Create a notification handler instance using the observer. Observer is responded for hold that instance. Normally, you don't need to call this method manually.
+    Create a notification handler using the observer. Observer is responded for hold that instance. Normally, you don't need to call this method manually.
     
     - parameter observer: The observer will be weak referenced by that instance.
     
