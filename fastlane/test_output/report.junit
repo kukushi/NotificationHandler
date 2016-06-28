@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites tests='9' failures='0'>
+  <testsuite name='NotificationHandlerTests.NotificationHandlerTests' tests='9' failures='0'>
+    <testcase classname='NotificationHandlerTests.NotificationHandlerTests' name='testObserverBecomeNilWithBlock' time='0.007'/>
+    <testcase classname='NotificationHandlerTests.NotificationHandlerTests' name='testObserverBecomeNilWithSelector' time='0.002'/>
+    <testcase classname='NotificationHandlerTests.NotificationHandlerTests' name='testObserveWithBlock' time='0.001'/>
+    <testcase classname='NotificationHandlerTests.NotificationHandlerTests' name='testObserveWithBlockMangTimes' time='0.008'/>
+    <testcase classname='NotificationHandlerTests.NotificationHandlerTests' name='testObserveWithSelector' time='0.001'/>
+    <testcase classname='NotificationHandlerTests.NotificationHandlerTests' name='testObserveWithSelectorAndBlock' time='0.002'/>
+    <testcase classname='NotificationHandlerTests.NotificationHandlerTests' name='testObserveWithSelectorAndParameters' time='0.004'/>
+    <testcase classname='NotificationHandlerTests.NotificationHandlerTests' name='testObserveWithSelectorManyTimes' time='0.019'/>
+    <testcase classname='NotificationHandlerTests.NotificationHandlerTests' name='testUnobserveWithSelector' time='0.003'/>
+  </testsuite>
+</testsuites>
