@@ -38,7 +38,7 @@ public class NotificationHandler: NSObject {
     private var lock = pthread_mutex_t()
     
     private var DefaultCenter: NotificationCenter {
-        return NotificationCenter.default()
+        return NotificationCenter.default
     }
     
     // MARK: Initialization
@@ -69,8 +69,9 @@ public class NotificationHandler: NSObject {
     - parameter queue:  The operation queue to which block should be added.If you pass nil, the block is run synchronously on the posting thread.
     - parameter block:  The block to be executed when the notification is received. The block is copied by the notification center and (the copy) held until the observer registration is removed.
     */
-    public func observe(_ name: String?, object: NSObject? = nil, queue: OperationQueue? = nil, block: NotificationClosure) {
-        let observer = DefaultCenter.addObserver(forName: name.map { NSNotification.Name(rawValue: $0) }, object: object, queue: queue, using: block)
+    public func observe(_ name: String?, object: NSObject? = nil, queue: OperationQueue? = nil, block: @escaping NotificationClosure) {
+        let observeredName = notificationName(from: name)
+        let observer = DefaultCenter.addObserver(forName: observeredName, object: object, queue: queue, using: block)
         let info = NotificationInfo(observer: observer as! NSObject, name: name, object: object)
 
         lockWith {
@@ -88,7 +89,8 @@ public class NotificationHandler: NSObject {
     - parameter selector:     Selector that specifies the message the receiver sends notificationObserver to notify it of the notification posting. The method specified by notificationSelector must have one and only one argument (an instance of NSNotification).
     */
     public func observe(_ notification: String?, object: NSObject? = nil, selector: Selector) {
-        DefaultCenter.addObserver(self, selector: #selector(NotificationHandler.notificationReceived(_:)), name: notification, object: object)
+        let name = notificationName(from: notification)
+        DefaultCenter.addObserver(self, selector: #selector(NotificationHandler.notificationReceived(_:)), name: name, object: object)
         let notificationInfo = NotificationInfo(observer: self.observer, name: notification, selector: selector)
         selectorInfos.insert(notificationInfo)
     }
@@ -101,7 +103,7 @@ public class NotificationHandler: NSObject {
     public func notificationReceived(_ notification: Notification) {
         let name = notification.name
         for info in selectorInfos where info.selector != nil {
-            let nameMatch = String(name) == info.name
+            let nameMatch = name.rawValue == info.name
             let responsible = info.observer.responds(to: info.selector!)
             if nameMatch && responsible {
                 info.observer.perform(info.selector!, with: notification)
@@ -163,10 +165,17 @@ public class NotificationHandler: NSObject {
     
     // MARK: Lock
     
-    func lockWith(_ closure:@noescape  (Void) -> Void) {
+    private func lockWith(_ closure: (Void) -> Void) {
         pthread_mutex_lock(&lock);
         closure();
         pthread_mutex_unlock(&lock);
+    }
+    
+    private func notificationName(from string: String?) -> Notification.Name? {
+        if let str = string {
+            return Notification.Name(str)
+        }
+        return nil
     }
 }
 

@@ -9,7 +9,7 @@
 import XCTest
 @testable import NotificationHandler
 
-let NotificationCenter = Foundation.NotificationCenter.default()
+let NotificationCenter = Foundation.NotificationCenter.default
 
 class TestObject: NSObject {
     var count = 0
@@ -45,10 +45,10 @@ class NotificationHandlerTests: XCTestCase {
         
         NotificationCenter.post(name: Notification.Name(rawValue: notificationName), object: nil)
         
-        let expection = expectation(withDescription: "")
+        let expection = expectation(description: "")
         XCTAssert(self.testObject.count == 1)
         expection.fulfill()
-        waitForExpectations(withTimeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testObserveWithBlockMangTimes() {
@@ -61,10 +61,10 @@ class NotificationHandlerTests: XCTestCase {
             NotificationCenter.post(name: Notification.Name(rawValue: notificationName), object: nil)
         }
         
-        let expection = expectation(withDescription: "")
+        let expection = expectation(description: "")
         XCTAssert(self.testObject.count == 1000)
         expection.fulfill()
-        waitForExpectations(withTimeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testObserverBecomeNilWithBlock() {
@@ -76,7 +76,7 @@ class NotificationHandlerTests: XCTestCase {
         }
         NotificationCenter.post(name: Notification.Name(rawValue: notificationName), object: nil)
         
-        let expection = expectation(withDescription: "")
+        let expection = expectation(description: "")
         XCTAssert(testObject.count == 1)
         expection.fulfill()
         
@@ -84,9 +84,9 @@ class NotificationHandlerTests: XCTestCase {
         
         NotificationCenter.post(name: Notification.Name(rawValue: notificationName), object: nil)
         
-        let expection2 = expectation(withDescription: "")
+        let expection2 = expectation(description: "")
         expection2.fulfill()
-        waitForExpectations(withTimeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     // MARK: Selector
@@ -97,10 +97,10 @@ class NotificationHandlerTests: XCTestCase {
         
         NotificationCenter.post(name: Notification.Name(rawValue: notificationName), object: nil)
         
-        let expection = expectation(withDescription: "")
+        let expection = expectation(description: "")
         XCTAssert(self.testObject.count == 1)
         expection.fulfill()
-        waitForExpectations(withTimeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testObserveWithSelectorManyTimes() {
@@ -111,10 +111,10 @@ class NotificationHandlerTests: XCTestCase {
             NotificationCenter.post(name: Notification.Name(rawValue: notificationName), object: nil)
         }
         
-        let expection = expectation(withDescription: "")
+        let expection = expectation(description: "")
         XCTAssert(self.testObject.count == 1000)
         expection.fulfill()
-        waitForExpectations(withTimeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testObserveWithSelectorAndParameters() {
@@ -123,10 +123,10 @@ class NotificationHandlerTests: XCTestCase {
         
         NotificationCenter.post(name: Notification.Name(rawValue: notificationName), object: nil)
         
-        let expection = expectation(withDescription: "")
+        let expection = expectation(description: "")
         XCTAssert(self.testObject.count == 2)
         expection.fulfill()
-        waitForExpectations(withTimeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testUnobserveWithSelector() {
@@ -134,18 +134,18 @@ class NotificationHandlerTests: XCTestCase {
         testObject.notificationHandler.observe(notificationName, selector: #selector(TestObject.plusOne))
         NotificationCenter.post(name: Notification.Name(rawValue: notificationName), object: nil)
         
-        let expection = expectation(withDescription: "")
+        let expection = expectation(description: "")
         XCTAssert(self.testObject.count == 1)
         expection.fulfill()
         
         testObject.notificationHandler.unobserve(notificationName)
         NotificationCenter.post(name: Notification.Name(rawValue: notificationName), object: nil)
         
-        let expection2 = expectation(withDescription: "")
+        let expection2 = expectation(description: "")
         XCTAssert(self.testObject.count == 1)
         expection2.fulfill()
         
-        waitForExpectations(withTimeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     // MARK: Block and Selector
@@ -158,10 +158,10 @@ class NotificationHandlerTests: XCTestCase {
         }
         NotificationCenter.post(name: Notification.Name(rawValue: notificationName), object: nil)
         
-        let expection = expectation(withDescription: "")
+        let expection = expectation(description: "")
         XCTAssert(testObject.count == 2)
         expection.fulfill()
-        waitForExpectations(withTimeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testObserverBecomeNilWithSelector() {
@@ -169,7 +169,7 @@ class NotificationHandlerTests: XCTestCase {
         testObject.notificationHandler.observe(notificationName, selector: #selector(TestObject.plusOne))
         NotificationCenter.post(name: Notification.Name(rawValue: notificationName), object: nil)
         
-        let expection = expectation(withDescription: "")
+        let expection = expectation(description: "")
         XCTAssert(testObject.count == 1)
         expection.fulfill()
         
@@ -178,9 +178,9 @@ class NotificationHandlerTests: XCTestCase {
         NotificationCenter.post(name: Notification.Name(rawValue: notificationName), object: nil)
         
         
-        let expection2 = expectation(withDescription: "")
+        let expection2 = expectation(description: "")
         expection2.fulfill()
-        waitForExpectations(withTimeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     override func tearDown() {
