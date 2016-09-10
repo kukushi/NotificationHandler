@@ -33,8 +33,8 @@ public class NotificationHandler: NSObject {
     public typealias NotificationClosure = (Notification!) -> Void
     
     private weak var observer: NSObject!
-    private var blockInfos = Set<NotificationInfo>()
-    private var selectorInfos = Set<NotificationInfo>()
+    private var blockInfos = Set<Notification.Info>()
+    private var selectorInfos = Set<Notification.Info>()
     private var lock = pthread_mutex_t()
     
     private var DefaultCenter: NotificationCenter {
@@ -69,10 +69,9 @@ public class NotificationHandler: NSObject {
     - parameter queue:  The operation queue to which block should be added.If you pass nil, the block is run synchronously on the posting thread.
     - parameter block:  The block to be executed when the notification is received. The block is copied by the notification center and (the copy) held until the observer registration is removed.
     */
-    public func observe(_ name: String?, object: NSObject? = nil, queue: OperationQueue? = nil, block: @escaping NotificationClosure) {
-        let observeredName = notificationName(from: name)
-        let observer = DefaultCenter.addObserver(forName: observeredName, object: object, queue: queue, using: block)
-        let info = NotificationInfo(observer: observer as! NSObject, name: name, object: object)
+    public func observe(_ name: Notification.Name?, object: NSObject? = nil, queue: OperationQueue? = nil, block: @escaping NotificationClosure) {
+        let observer = DefaultCenter.addObserver(forName: name, object: object, queue: queue, using: block)
+        let info = Notification.Info(observer: observer as! NSObject, name: name, object: object)
 
         lockWith {
             blockInfos.insert(info)
@@ -88,10 +87,9 @@ public class NotificationHandler: NSObject {
     - parameter object:       The object whose notifications the observer wants to receive; that is, only notifications sent by this sender are delivered to the observer. If you pass nil, the notification center doesn’t use a notification’s sender to decide whether to deliver it to the observer.
     - parameter selector:     Selector that specifies the message the receiver sends notificationObserver to notify it of the notification posting. The method specified by notificationSelector must have one and only one argument (an instance of NSNotification).
     */
-    public func observe(_ notification: String?, object: NSObject? = nil, selector: Selector) {
-        let name = notificationName(from: notification)
-        DefaultCenter.addObserver(self, selector: #selector(NotificationHandler.notificationReceived(_:)), name: name, object: object)
-        let notificationInfo = NotificationInfo(observer: self.observer, name: notification, selector: selector)
+    public func observe(_ notification: Notification.Name?, object: NSObject? = nil, selector: Selector) {
+        DefaultCenter.addObserver(self, selector: #selector(NotificationHandler.notificationReceived(_:)), name: notification, object: object)
+        let notificationInfo = Notification.Info(observer: self.observer, name: notification, selector: selector)
         selectorInfos.insert(notificationInfo)
     }
     
@@ -103,7 +101,7 @@ public class NotificationHandler: NSObject {
     public func notificationReceived(_ notification: Notification) {
         let name = notification.name
         for info in selectorInfos where info.selector != nil {
-            let nameMatch = name.rawValue == info.name
+            let nameMatch = name == info.name
             let responsible = info.observer.responds(to: info.selector!)
             if nameMatch && responsible {
                 info.observer.perform(info.selector!, with: notification)
@@ -111,7 +109,7 @@ public class NotificationHandler: NSObject {
         }
     }
     
-    private func removeNilObserver(_ info: NotificationInfo) -> Bool {
+    private func removeNilObserver(_ info: Notification.Info) -> Bool {
         if (info.observer == nil) {
             DefaultCenter.removeObserver(self)
             return true
@@ -127,22 +125,22 @@ public class NotificationHandler: NSObject {
     - parameter name:   the name of notification to be unobserved. Specify a notification name to remove only entries that specify this notification name. When nil, the receiver does not use notification names as criteria for removal.
     - parameter object: Sender to remove from the dispatch table. Specify a notification sender to remove only entries that specify this sender. When nil, the receiver does not use notification senders as criteria for removal.
     */
-    public func unobserve(_ name: String?, object: NSObject? = nil) {
+    public func unobserve(_ name: Notification.Name?, object: NSObject? = nil) {
         
         lockWith {
-            let filterBlock = { [unowned self] (info: NotificationInfo) -> Bool in
+            let filterBlock = { [unowned self] (info: Notification.Info) -> Bool in
                 if info.name == name && info.object == object {
-                    self.DefaultCenter.removeObserver(info.observer, name: Notification.Name(info.name), object: info.object)
+                    self.DefaultCenter.removeObserver(info.observer, name: info.name, object: info.object)
                     return false
                 }
                 return true
             }
             
             let filteredBlockInfos = self.blockInfos.filter(filterBlock)
-            blockInfos = Set<NotificationInfo>(filteredBlockInfos)
+            blockInfos = Set<Notification.Info>(filteredBlockInfos)
             
             let filteredSelectorInfos = self.selectorInfos.filter(filterBlock)
-            selectorInfos = Set<NotificationInfo>(filteredSelectorInfos)
+            selectorInfos = Set<Notification.Info>(filteredSelectorInfos)
         }
     }
     
@@ -151,11 +149,11 @@ public class NotificationHandler: NSObject {
      */
     public func unobserveAll() {
         for info in blockInfos {
-            DefaultCenter.removeObserver(info.observer, name: Notification.Name(info.name), object: info.object)
+            DefaultCenter.removeObserver(info.observer, name: info.name, object: info.object)
         }
         
         for info in selectorInfos {
-            DefaultCenter.removeObserver(self, name: Notification.Name(info.name), object: info.object)
+            DefaultCenter.removeObserver(self, name: info.name, object: info.object)
         }
 
         lockWith {
@@ -179,27 +177,30 @@ public class NotificationHandler: NSObject {
     }
 }
 
-/**
- *  Private data model used to store notification observation info
- */
-private struct NotificationInfo: Hashable {
-    weak var observer: NSObject!
-    let name: String!
-    let object: NSObject?
-    let selector: Selector?
-    
-    init (observer: NSObject, name: String?, object: NSObject? = nil, selector: Selector? = nil) {
-        self.observer = observer
-        self.name = name
-        self.object = object
-        self.selector = selector
-    }
-    
-    var hashValue: Int {
-        return name.hash
+extension Notification {
+    /**
+     *  Private data model used to store notification observation info
+     */
+    fileprivate struct Info: Hashable {
+        weak var observer: NSObject!
+        let name: Notification.Name!
+        let object: NSObject?
+        let selector: Selector?
+        
+        init (observer: NSObject, name: Notification.Name?, object: NSObject? = nil, selector: Selector? = nil) {
+            self.observer = observer
+            self.name = name
+            self.object = object
+            self.selector = selector
+        }
+        
+        var hashValue: Int {
+            return name.rawValue.hash
+        }
     }
 }
 
-private func ==(lhs: NotificationInfo, rhs: NotificationInfo) -> Bool {
+fileprivate func ==(lhs: Notification.Info, rhs: Notification.Info) -> Bool {
     return lhs.name == rhs.name && lhs.observer == rhs.observer
 }
+
