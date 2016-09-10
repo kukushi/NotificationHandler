@@ -24,6 +24,25 @@ fastlane test_framework configuration:Debug --env ios91
  * **`configuration`**: The build configuration to use.
 
 
+### code_coverage
+```
+fastlane code_coverage
+```
+Produces code coverage information
+
+Set `scan` action environment variables to control test configuration
+
+####Example:
+
+```
+fastlane code_coverage configuration:Debug
+```
+
+####Options
+
+ * **`configuration`**: The build configuration to use. The only supported configuration is the `Debug` configuration.
+
+
 
 ----
 
