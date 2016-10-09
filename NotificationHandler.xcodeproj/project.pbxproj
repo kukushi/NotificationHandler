@@ -82,7 +82,7 @@
 		87114DFB1BEF3AF900B59FC0 = {
 			isa = PBXGroup;
 			children = (
-				87114E071BEF3AF900B59FC0 /* NotificationHandler */,
+				87114E071BEF3AF900B59FC0 /* Sources */,
 				87114E131BEF3AF900B59FC0 /* NotificationHandlerTests */,
 				87114E061BEF3AF900B59FC0 /* Products */,
 			);
@@ -99,14 +99,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		87114E071BEF3AF900B59FC0 /* NotificationHandler */ = {
+		87114E071BEF3AF900B59FC0 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				87114E081BEF3AF900B59FC0 /* NotificationHandler.h */,
 				87114E1F1BEF3B6B00B59FC0 /* NotificationHandler.swift */,
 				87114E0A1BEF3AF900B59FC0 /* Info.plist */,
 			);
-			path = NotificationHandler;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		87114E131BEF3AF900B59FC0 /* NotificationHandlerTests */ = {
@@ -234,9 +234,11 @@
 					};
 					8768E05D1CECCAC800239340 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 					8768E0661CECCAC800239340 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -444,7 +446,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = NotificationHandler/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -466,7 +468,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = NotificationHandler/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -513,7 +515,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = NotificationHandler/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -521,6 +523,7 @@
 				PRODUCT_NAME = NotificationHandler;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -535,7 +538,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = NotificationHandler/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -544,6 +547,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -559,6 +563,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kukushi.NotificationHandlerTests;
 				PRODUCT_NAME = NotificationHandler;
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -574,6 +579,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kukushi.NotificationHandlerTests;
 				PRODUCT_NAME = NotificationHandler;
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
