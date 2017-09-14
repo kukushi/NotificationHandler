@@ -17,11 +17,11 @@ class TestObject: NSObject {
         // nothing to do...
     }
     
-    func plusOne() {
+    @objc func plusOne() {
         count += 1
     }
     
-    func plusTwo(_ notification: Notification) {
+    @objc func plusTwo(_ notification: Notification) {
         print("### Notification: \(notification)")
         count += 2
     }
