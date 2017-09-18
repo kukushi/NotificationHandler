@@ -98,7 +98,7 @@ public class NotificationHandler: NSObject {
      
      - parameter notification: Received notification.
      */
-    public func notificationReceived(_ notification: Notification) {
+    @objc public func notificationReceived(_ notification: Notification) {
         let name = notification.name
         for info in selectorInfos where info.selector != nil {
             let nameMatch = name == info.name
@@ -163,7 +163,7 @@ public class NotificationHandler: NSObject {
     
     // MARK: Lock
     
-    private func lockWith(_ closure: (Void) -> Void) {
+    private func lockWith(_ closure: () -> ()) {
         pthread_mutex_lock(&lock);
         closure();
         pthread_mutex_unlock(&lock);
