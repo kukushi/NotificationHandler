@@ -1,7 +1,8 @@
 Pod::Spec.new do |s|
 
   s.name         = "NotificationHandler"
-  s.version      = "0.1.0"
+  s.version      = "0.4.0"
+  s.swift-version = "4.0"
   s.summary      = "A Neat Swift Notification Operations Wrapper"
 
   s.description  = <<-DESC
