@@ -3,9 +3,9 @@
 ![Carthage Compatibility](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)
 [![Build Status](https://travis-ci.org/kukushi/NotificationHandler.svg?branch=0.0.2)](https://travis-ci.org/kukushi/NotificationHandler)
 
-NotificationHandler nicely wrap almost all the `NSNotification` related operations with more friendly API. 
+NotificationHandler nicely wrap almost all the `NSNotification` related operations with more friendly API.
 
-Fetures include:
+Features include:
 
 * Modern and clear method signature.
 * Implicit observer removal on observer deallocation.
