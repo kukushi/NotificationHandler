@@ -30,7 +30,7 @@ public extension NSObject {
 /// The notification handler response for handing all the hard works of observing and unoberving notifications.
 /// The basic usage is rather similar than the official `NSNotificationCenter`.
 public class NotificationHandler: NSObject {
-    public typealias NotificationClosure = (Notification!) -> Void
+    public typealias NotificationClosure = (Notification) -> Void
     
     private weak var observer: NSObject!
     private var blockInfos = Set<Notification.Info>()
