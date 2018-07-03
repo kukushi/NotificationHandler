@@ -8,7 +8,7 @@
 
 import Foundation
 
-private var NotificationHandlerAssociationKey: UInt8 = 17
+private var NotificationHandlerAssociationKey = 0
 
 public extension NSObject {
     /// A lazy initialized `NotificationHandler` instance for NSObject and it's subclass
@@ -27,8 +27,8 @@ public extension NSObject {
     }
 }
 
-/// The notification handler response for handing all the hard works of observing and unoberving notifications.
-/// The basic usage is rather similar than the official `NSNotificationCenter`.
+/// The notification handler responsible for handling all the hard works of observing and unobserving notifications.
+/// The basic usage is rather similar to the official `NSNotificationCenter`.
 public class NotificationHandler: NSObject {
     public typealias NotificationClosure = (Notification) -> Void
     
@@ -71,7 +71,7 @@ public class NotificationHandler: NSObject {
     */
     public func observe(_ name: Notification.Name?, object: NSObject? = nil, queue: OperationQueue? = nil, block: @escaping NotificationClosure) {
         let observer = DefaultCenter.addObserver(forName: name, object: object, queue: queue, using: block)
-        let info = Notification.Info(observer: observer as! NSObject, name: name, object: object)
+        let info = Notification.Info(observer: observer, name: name, object: object)
 
         lockWith {
             blockInfos.insert(info)
@@ -182,12 +182,13 @@ extension Notification {
      *  Private data model used to store notification observation info
      */
     fileprivate struct Info: Hashable {
-        weak var observer: NSObject!
+        weak var observer: NSObjectProtocol!
+        
         let name: Notification.Name!
         let object: NSObject?
         let selector: Selector?
         
-        init (observer: NSObject, name: Notification.Name?, object: NSObject? = nil, selector: Selector? = nil) {
+        init (observer: NSObjectProtocol, name: Notification.Name?, object: NSObject? = nil, selector: Selector? = nil) {
             self.observer = observer
             self.name = name
             self.object = object
@@ -201,6 +202,6 @@ extension Notification {
 }
 
 fileprivate func ==(lhs: Notification.Info, rhs: Notification.Info) -> Bool {
-    return lhs.name == rhs.name && lhs.observer == rhs.observer
+    return lhs.name == rhs.name && lhs.observer === rhs.observer
 }
 
