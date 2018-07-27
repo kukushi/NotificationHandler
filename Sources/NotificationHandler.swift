@@ -110,7 +110,7 @@ public class NotificationHandler: NSObject {
     }
     
     private func removeNilObserver(_ info: Notification.Info) -> Bool {
-        if (info.observer == nil) {
+        if info.observer == nil {
             DefaultCenter.removeObserver(self)
             return true
         }
