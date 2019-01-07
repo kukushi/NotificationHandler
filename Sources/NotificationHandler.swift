@@ -42,14 +42,10 @@ public class NotificationHandler: NSObject {
     }
     
     // MARK: Initialization
-    
-    /**
-    Create a notification handler using the observer. Observer is responded for hold that instance. Normally, you don't need to call this method manually.
-    
-    - parameter observer: The observer will be weak referenced by that instance.
-    
-    - returns: An initialized instance
-    */
+
+    /// Create a notification handler using the observer. Observer is responded for hold that instance. Normally, you don't need to call this method manually.
+    ///
+    /// - Parameter observer: The observer will be weak referenced by that instance.
     init(observer: NSObject) {
         pthread_mutex_init(&lock, nil)
         self.observer = observer
@@ -60,15 +56,14 @@ public class NotificationHandler: NSObject {
     }
     
     // MARK: Observe with Closure
-    
-    /**
-    Observe the notification using block and other given arguments.
-    
-    - parameter name:   the notification name to be observed.
-    - parameter object: The name of the notification for which to register the observer; that is, only notifications with this name are delivered to the observer.If you pass nil, the notification center doesn’t use a notification’s name to decide whether to deliver it to the observer.
-    - parameter queue:  The operation queue to which block should be added.If you pass nil, the block is run synchronously on the posting thread.
-    - parameter block:  The block to be executed when the notification is received. The block is copied by the notification center and (the copy) held until the observer registration is removed.
-    */
+
+    /// Observe the notification using block and other given arguments.
+    ///
+    /// - Parameters:
+    ///   - name: the notification name to be observed.
+    ///   - object:  The name of the notification for which to register the observer; that is, only notifications with this name are delivered to the observer.If you pass nil, the notification center doesn’t use a notification’s name to decide whether to deliver it to the observer.
+    ///   - queue: The operation queue to which block should be added.If you pass nil, the block is run synchronously on the posting thread.
+    ///   - block: The block to be executed when the notification is received. The block is copied by the notification center and (the copy) held until the observer registration is removed.
     public func observe(_ name: Notification.Name?, object: NSObject? = nil, queue: OperationQueue? = nil, block: @escaping NotificationClosure) {
         let observer = DefaultCenter.addObserver(forName: name, object: object, queue: queue, using: block)
         let info = Notification.Info(observer: observer, name: name, object: object)
@@ -77,27 +72,22 @@ public class NotificationHandler: NSObject {
             blockInfos.insert(info)
         }
     }
-    
-    // MARK: Observe with Selector
-    
-    /**
-    Observe the notification using selector and other given arguments.
-    
-    - parameter notification: The name of the notification for which to register the observer; that is, only notifications with this name are delivered to the observer. If you pass nil, the notification center doesn’t use a notification’s name to decide whether to deliver it to the observer.
-    - parameter object:       The object whose notifications the observer wants to receive; that is, only notifications sent by this sender are delivered to the observer. If you pass nil, the notification center doesn’t use a notification’s sender to decide whether to deliver it to the observer.
-    - parameter selector:     Selector that specifies the message the receiver sends notificationObserver to notify it of the notification posting. The method specified by notificationSelector must have one and only one argument (an instance of NSNotification).
-    */
+
+    /// Observe the notification using selector and other given arguments.
+    ///
+    /// - Parameters:
+    ///   - notification: The name of the notification for which to register the observer; that is, only notifications with this name are delivered to the observer. If you pass nil, the notification center doesn’t use a notification’s name to decide whether to deliver it to the observer.
+    ///   - object: The object whose notifications the observer wants to receive; that is, only notifications sent by this sender are delivered to the observer. If you pass nil, the notification center doesn’t use a notification’s sender to decide whether to deliver it to the observer.
+    ///   - selector: Selector that specifies the message the receiver sends notificationObserver to notify it of the notification posting. The method specified by notificationSelector must have one and only one argument (an instance of NSNotification).
     public func observe(_ notification: Notification.Name?, object: NSObject? = nil, selector: Selector) {
         DefaultCenter.addObserver(self, selector: #selector(NotificationHandler.notificationReceived(_:)), name: notification, object: object)
         let notificationInfo = Notification.Info(observer: self.observer, name: notification, selector: selector)
         selectorInfos.insert(notificationInfo)
     }
-    
-    /**
-     The method used to redistribute notification to the real observer. This method is marked `public` instead of `private` because the language limitation.
-     
-     - parameter notification: Received notification.
-     */
+
+    /// The method used to redistribute notification to the real observer. This method is marked `public` instead of `private` because the language limitation.
+    ///
+    /// - Parameter notification: Received notification.
     @objc public func notificationReceived(_ notification: Notification) {
         let name = notification.name
         for info in selectorInfos where info.selector != nil {
@@ -118,13 +108,12 @@ public class NotificationHandler: NSObject {
     }
     
     // MARK: Unobserve
-    
-    /**
-    Unobserve the named notification observed by this instance.
-    
-    - parameter name:   the name of notification to be unobserved. Specify a notification name to remove only entries that specify this notification name. When nil, the receiver does not use notification names as criteria for removal.
-    - parameter object: Sender to remove from the dispatch table. Specify a notification sender to remove only entries that specify this sender. When nil, the receiver does not use notification senders as criteria for removal.
-    */
+
+    /// Unobserve the named notification observed by this instance.
+    ///
+    /// - Parameters:
+    ///   - name: the name of notification to be unobserved. Specify a notification name to remove only entries that specify this notification name. When nil, the receiver does not use notification names as criteria for removal.
+    ///   - object: Sender to remove from the dispatch table. Specify a notification sender to remove only entries that specify this sender. When nil, the receiver does not use notification senders as criteria for removal.
     public func unobserve(_ name: Notification.Name?, object: NSObject? = nil) {
         
         lockWith {
@@ -143,10 +132,8 @@ public class NotificationHandler: NSObject {
             selectorInfos = Set<Notification.Info>(filteredSelectorInfos)
         }
     }
-    
-    /**
-     Unobserve all the notifications observed by this instance.
-     */
+
+    /// Unobserve all the notifications observed by this instance.
     public func unobserveAll() {
         for info in blockInfos {
             DefaultCenter.removeObserver(info.observer, name: info.name, object: info.object)
@@ -178,9 +165,7 @@ public class NotificationHandler: NSObject {
 }
 
 extension Notification {
-    /**
-     *  Private data model used to store notification observation info
-     */
+    /// Private data model used to store notification observation info
     fileprivate struct Info: Hashable {
         weak var observer: NSObjectProtocol!
         
