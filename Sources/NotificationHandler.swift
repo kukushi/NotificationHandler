@@ -50,7 +50,7 @@ public class NotificationHandler: NSObject {
     
     - returns: An initialized instance
     */
-    init (observer: NSObject) {
+    init(observer: NSObject) {
         pthread_mutex_init(&lock, nil)
         self.observer = observer
     }
